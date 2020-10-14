@@ -18,12 +18,12 @@ export class Rent {
     @Column({type: 'text', nullable: false})
     locator: string;
 
-    @Column({name: 'return_date', type: 'timestamp'})
+    @Column({name: 'return_date', type: 'timestamp', nullable: true})
     returnDate: Date;
 
-    @UpdateDateColumn({name: 'updated_at'})
+    @UpdateDateColumn({name: 'updated_at', nullable: true})
     upadtedAt: Date;
 
-    @UpdateDateColumn({name: 'deleted_at'})
+    @UpdateDateColumn({name: 'deleted_at', nullable: true})
     deletedAt: Date;
 }

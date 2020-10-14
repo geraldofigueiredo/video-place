@@ -18,7 +18,7 @@ export class Movie {
     @Column({type: 'text', nullable: false})
     genre: string;
 
-    @Column({name: 'release_date' ,type: 'date'})
+    @Column({name: 'release_date' ,type: 'date', nullable: true})
     releaseDate: Date;
 
     @Column({type: 'text', nullable: false})
@@ -27,21 +27,21 @@ export class Movie {
     @Column({type: 'boolean', nullable: false})
     subtitled: boolean;
 
-    @Column({type: 'text'})
+    @Column({type: 'text', nullable: true})
     director: string;
 
-    @Column({name: 'IMDB_link', type: 'text'})
+    @Column({name: 'IMDB_link', type: 'text', nullable: true})
     IMDB: string;
 
     @Column({type: 'int', nullable: false})
     quantity: number;
 
-    @CreateDateColumn({name: 'created_at'})
+    @CreateDateColumn({name: 'created_at', default: 'now()'})
     createdAt: Date;
 
-    @UpdateDateColumn({name: 'updated_at'})
+    @UpdateDateColumn({name: 'updated_at', nullable: true})
     upadtedAt: Date;
 
-    @DeleteDateColumn({name: 'deleted_at'})
+    @DeleteDateColumn({name: 'deleted_at', nullable: true})
     deletedAt: Date;
 }
