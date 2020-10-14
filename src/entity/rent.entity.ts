@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { MovieRent } from "./movieRent";
 
 @Entity('rent')
@@ -9,9 +9,6 @@ export class Rent {
     @OneToMany(type => MovieRent, movieToRent => movieToRent.rent)
     rentedMovies: MovieRent[];
 
-    @Column({name: 'rental_date', type: 'timestamp', nullable: false, default: 'now()'})
-    rentalDate: Date;
-
     @Column({name: 'return_period', type: 'int', nullable: false})
     returnPeriod: number;
 
@@ -21,9 +18,12 @@ export class Rent {
     @Column({name: 'return_date', type: 'timestamp', nullable: true})
     returnDate: Date;
 
+    @CreateDateColumn({name: 'rental_date', type: 'timestamp', nullable: false})
+    rentalDate: Date;
+
     @UpdateDateColumn({name: 'updated_at', nullable: true})
     upadtedAt: Date;
 
-    @UpdateDateColumn({name: 'deleted_at', nullable: true})
+    @DeleteDateColumn({name: 'deleted_at', nullable: true})
     deletedAt: Date;
 }
