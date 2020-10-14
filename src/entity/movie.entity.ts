@@ -36,7 +36,7 @@ export class Movie {
     @Column({type: 'int', nullable: false})
     quantity: number;
 
-    @CreateDateColumn({name: 'created_at', default: 'now()'})
+    @CreateDateColumn({name: 'created_at'})
     createdAt: Date;
 
     @UpdateDateColumn({name: 'updated_at', nullable: true})
