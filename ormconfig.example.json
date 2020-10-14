@@ -1,0 +1,19 @@
+{
+    "type": "",
+    "host": "",
+    "port": 0,
+    "username": "",
+    "password": "",
+    "database": "video_place",
+    "entities": [
+        "dist/entity/*.js"
+    ],
+    "migrations": [
+        "dist/migrations/*.js"
+    ],
+    "cli": {
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migrations"
+    },
+    "synchronize": true
+}
