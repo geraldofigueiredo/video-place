@@ -1,5 +1,5 @@
+import { MovieRent } from "src/movieRent/movieRent.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { MovieRent } from "./movieRent";
 
 @Entity('rent')
 export class Rent {

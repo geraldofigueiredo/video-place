@@ -1,4 +1,4 @@
-import { MovieModule } from './module/movie.module';
+import { MovieModule } from './movie/movie.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';

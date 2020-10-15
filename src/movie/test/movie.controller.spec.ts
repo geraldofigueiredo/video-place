@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Movie } from '../entity/movie.entity';
-import { MovieService } from '../service/movie.service';
-import { MovieController } from './movie.controller';
+import { Movie } from '../movie.entity';
+import { MovieService } from '../movie.service';
+import { MovieController } from '../movie.controller';
 
 jest.mock('../service/movie.service')
 

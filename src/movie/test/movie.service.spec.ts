@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { rejects } from 'assert';
 import { Repository } from 'typeorm';
-import { Movie } from '../entity/movie.entity';
-import { MovieService } from './movie.service';
+import { Movie } from '../movie.entity';
+import { MovieService } from '../movie.service';
 
 describe('MovieService', () => {
     let movieService: MovieService;

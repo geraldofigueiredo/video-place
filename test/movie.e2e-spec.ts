@@ -1,9 +1,9 @@
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { MovieService } from "src/service/movie.service";
+import { MovieService } from "src/movie/movie.service";
 import supertest from "supertest";
-import { MovieModule } from "../src/module/movie.module";
+import { MovieModule } from "../src/movie/movie.module";
 
 describe('movieController (e2e)', () => {
     let app: INestApplication;
