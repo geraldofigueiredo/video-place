@@ -3,6 +3,11 @@ import { MovieRent } from "./movieRent";
 
 @Entity('movie')
 export class Movie {
+    constructor(id?: number, title?: string) {
+        this.id = id;
+        this.title = title;
+    }
+
     @PrimaryGeneratedColumn({type: 'bigint'})
     id: number;
 
