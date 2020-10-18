@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Inject, Post, Put } from "@nestjs/common";
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Get, Inject, Post, Put, UseInterceptors } from "@nestjs/common";
 import { RentalDTO } from "src/dto/rental.dto";
 import { RentalService } from "./rental.service";
 
@@ -9,9 +9,10 @@ export class RentalController {
         @Inject(RentalService) private rentalService: RentalService
     ){}
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('/')
     async getRentals() {
-        return undefined;
+        return this.rentalService.getRentals();
     }
 
     @Get('/expire')

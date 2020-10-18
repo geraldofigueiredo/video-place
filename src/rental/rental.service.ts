@@ -9,19 +9,18 @@ import { Rental } from "./rental.entity";
 @Injectable()
 export class RentalService {
     constructor(
-        @InjectRepository(Rental) private rentRepository: Repository<Rental>,
+        @InjectRepository(Rental) private rentalRepository: Repository<Rental>,
         @InjectRepository(MovieRental) private movieRentalRepository: Repository<MovieRental>
     ){}
+
+    async getRentals(): Promise<Rental[]> {
+        return this.rentalRepository.find({relations: ['movies', 'movies.movie']});
+    }
 
     async createRental(rentalDTO: RentalDTO): Promise<Rental> {
         const rental = plainToClass(Rental, rentalDTO);
         rental.rentalDate = new Date();
-        rental.movies = rentalDTO.movies.map(movie => plainToClass(MovieRental, movie));
-        
-        await this.rentRepository.save(rental);
-        rental.movies.forEach(movie => movie.rentalId = rental.id)
-        console.log(rental);
-        await this.movieRentalRepository.save(rental.movies);
+        await this.rentalRepository.save(rental);
         return rental;
     }
 }

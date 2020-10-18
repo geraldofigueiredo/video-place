@@ -1,5 +1,5 @@
 import { Exclude, Expose, Type } from "class-transformer";
-import { ArrayMinSize, IsArray, IsDefined, IsISO8601, IsNotEmpty, IsNotEmptyObject, IsOptional, IsPositive, IsString, Min, registerDecorator, ValidateNested, ValidationArguments, ValidationOptions } from "class-validator";
+import { IsDefined, IsISO8601, IsNotEmpty, IsOptional, IsPositive, IsString, Min, ValidateNested } from "class-validator";
 
 export class MovieRentalDTO {
     @Expose()
@@ -22,11 +22,6 @@ export class RentalDTO {
     @ValidateNested()
     @Type(() => MovieRentalDTO)
     movies: MovieRentalDTO[];
-
-    // @Expose()
-    // @IsISO8601({strict: true})
-    // @IsOptional()
-    // rentalDate: Date;
 
     @Expose()
     @IsPositive()

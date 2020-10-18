@@ -9,11 +9,11 @@ export class Movie {
         this.title = title;
     }
 
-    @PrimaryGeneratedColumn({type: 'bigint'})
+    @PrimaryGeneratedColumn({type: 'int'})
     id: number;
 
     @OneToMany(type => MovieRental, rentedMovie => rentedMovie.movie)
-    myRents: MovieRental[];
+    rentals: MovieRental[];
 
     @Column({type: 'text', nullable: false})
     title: string;
@@ -25,7 +25,6 @@ export class Movie {
     genre: string;
 
     @Column({name: 'release_date' ,type: 'date', nullable: true})
-    // @Transform(releaseDate => new Date(releaseDate))
     releaseDate: Date;
 
     @Column({type: 'text', nullable: false})
