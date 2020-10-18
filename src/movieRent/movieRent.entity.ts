@@ -1,6 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { Movie } from "./movie.entity";
-import { Rent } from "./rent.entity";
+import { Rent } from "../rent/rent.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Movie } from "../movie/movie.entity";
 
 @Entity('movie_rent')
 export class MovieRent {
