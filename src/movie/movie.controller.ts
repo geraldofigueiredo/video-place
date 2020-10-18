@@ -1,4 +1,5 @@
-import { Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { MovieDTO } from '../dto/movie.dto';
 import { Movie } from './movie.entity';
 import { MovieService } from './movie.service';
 
@@ -9,17 +10,27 @@ export class MovieController {
     ) {}
 
     @Get('/')
-    getMovies(): Promise<Movie[]> {
-        return this.movieService.findAll()
+    async getMovies(): Promise<Movie[]> {
+        return this.movieService.findAll();
     }
 
     @Get('/:id')
-    getMovie(@Param('id', ParseIntPipe) id: number): Promise<Movie> {
-        return this.movieService.find(id)
+    async getMovie(@Param('id', ParseIntPipe) id: number): Promise<Movie>{
+        return this.movieService.findById(id);
     }
 
     @Post('/')
-    createMovie(): Movie {
-        return undefined;
+    async createMovie(@Body() newMovie: MovieDTO): Promise<Movie> {
+        return this.movieService.insertMovie(newMovie);
+    }
+
+    @Put('/')
+    async updateMovie(@Body() movie: MovieDTO){
+        return this.movieService.updateMovie(movie);
+    }
+
+    @Delete('/:id')
+    async deleteMovie(@Param('id', ParseIntPipe) id: number) {
+        return await this.movieService.deleteMovie(id);
     }
 }

@@ -1,4 +1,4 @@
-import { MovieRent } from "src/movieRent/movieRent.entity";
+import { MovieRent } from "../movieRent/movieRent.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('rent')
@@ -15,11 +15,14 @@ export class Rent {
     @Column({type: 'text', nullable: false})
     locator: string;
 
-    @Column({name: 'return_date', type: 'timestamp', nullable: true})
+    @Column({name: 'return_date', type: 'date', nullable: true})
     returnDate: Date;
 
-    @CreateDateColumn({name: 'rental_date', type: 'timestamp', nullable: false})
+    @Column({name: 'rental_date', type: 'date', nullable: false})
     rentalDate: Date;
+
+    @CreateDateColumn({name: 'created_at', type: 'timestamp', nullable: false})
+    createdAt: Date;
 
     @UpdateDateColumn({name: 'updated_at', nullable: true})
     upadtedAt: Date;

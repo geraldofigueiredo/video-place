@@ -1,8 +1,9 @@
-import { MovieRent } from "src/movieRent/movieRent.entity";
+import { MovieRent } from "../movieRent/movieRent.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('movie')
 export class Movie {
+
     constructor(id?: number, title?: string) {
         this.id = id;
         this.title = title;
@@ -24,6 +25,7 @@ export class Movie {
     genre: string;
 
     @Column({name: 'release_date' ,type: 'date', nullable: true})
+    // @Transform(releaseDate => new Date(releaseDate))
     releaseDate: Date;
 
     @Column({type: 'text', nullable: false})

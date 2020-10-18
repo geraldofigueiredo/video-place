@@ -1,33 +1,57 @@
-export class MovieDTO {
-    title: string;
-    synopsis: string;
-    genre: string;
-    releaseDate: Date;
-    idiom: string;
-    subtitled: boolean;
-    director: string;
-    IMDB: string;
-    quantity: number;
+import { Exclude, Expose } from "class-transformer";
+import { IsBoolean, IsFQDN, IsISO8601, IsOptional, IsPositive, IsString, Min } from "class-validator";
 
-    constructor(
-        title: string,
-        synopsis: string,
-        genre: string,
-        idiom: string,
-        subtitled: boolean,
-        quantity: number,
-        releaseDate?: Date,
-        director?: string,
-        IMDB?: string,
-    ){
+@Exclude()
+export class MovieDTO {
+
+    constructor(id?: number, title?: string) {
+        this.id = id;
         this.title = title;
-        this.synopsis = synopsis;
-        this.genre = genre;
-        this.idiom = idiom;
-        this.subtitled = subtitled;
-        this.quantity = quantity;
-        this.releaseDate = releaseDate;
-        this.director = director;
-        this.IMDB = IMDB;
     }
+
+    @Expose()
+    @IsPositive()
+    @Min(1)
+    @IsOptional()
+    id: number;
+
+    @Expose()
+    @IsString()
+    title: string;
+
+    @Expose()
+    @IsString()
+    synopsis: string;
+    
+    @Expose()
+    @IsString()
+    genre: string;
+    
+    @Expose()
+    @IsISO8601({strict: true})
+    @IsOptional()
+    releaseDate: string;
+    
+    @Expose()
+    @IsString()
+    idiom: string;
+    
+    @Expose()
+    @IsBoolean()
+    subtitled: boolean;
+
+    @Expose()
+    @IsPositive()
+    @Min(1)
+    quantity: number;
+    
+    @Expose()
+    @IsString()
+    @IsOptional()
+    director: string;
+    
+    @Expose()
+    @IsFQDN()
+    @IsOptional()
+    IMDB: string;
 }

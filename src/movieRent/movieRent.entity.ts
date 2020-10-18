@@ -1,4 +1,4 @@
-import { Rent } from "src/rent/rent.entity";
+import { Rent } from "../rent/rent.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Movie } from "../movie/movie.entity";
 

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { plainToClass } from 'class-transformer';
+import { MovieDTO } from '../dto/movie.dto';
+import { DeleteResult, Repository } from 'typeorm';
 import { Movie } from './movie.entity';
 
 @Injectable()
@@ -9,11 +11,28 @@ export class MovieService {
         @InjectRepository(Movie) private movieRepository: Repository<Movie>
     ){}
 
-    findAll(): Promise<Movie[]> {
+    async findAll(): Promise<Movie[]> {
         return this.movieRepository.find()
     }
 
-    find(id: number): Promise<Movie> {
-        return this.movieRepository.findOne({where: {id: id}})
+    async findById(id: number): Promise<Movie> {
+        return this.movieRepository.findOne({where: {id: id}});
+    }
+
+    async insertMovie(movieDTO: MovieDTO): Promise<Movie> {
+        const newMovie = plainToClass(Movie, movieDTO);
+        await this.movieRepository.save(newMovie);
+        return newMovie;
+    }
+
+    async updateMovie(movieDTO: MovieDTO): Promise<Movie> {
+        const { id } = movieDTO;
+        const updatedMovie = plainToClass(Movie, movieDTO);
+        await this.movieRepository.update({id}, updatedMovie);
+        return this.findById(id);
+    }
+
+    async deleteMovie(id: number): Promise<DeleteResult> {
+        return await this.movieRepository.delete({id: id});
     }
 }
