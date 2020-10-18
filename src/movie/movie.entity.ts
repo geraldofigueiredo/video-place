@@ -1,4 +1,4 @@
-import { MovieRent } from "../movieRent/movieRent.entity";
+import { MovieRental } from "../movieRental/movieRental.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('movie')
@@ -12,8 +12,8 @@ export class Movie {
     @PrimaryGeneratedColumn({type: 'bigint'})
     id: number;
 
-    @OneToMany(type => MovieRent, rentedMovie => rentedMovie.movie)
-    myRents: MovieRent[];
+    @OneToMany(type => MovieRental, rentedMovie => rentedMovie.movie)
+    myRents: MovieRental[];
 
     @Column({type: 'text', nullable: false})
     title: string;

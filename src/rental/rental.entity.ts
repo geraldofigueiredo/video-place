@@ -1,13 +1,13 @@
-import { MovieRent } from "../movieRent/movieRent.entity";
+import { MovieRental } from "../movieRental/movieRental.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity('rent')
-export class Rent {
+@Entity('rental')
+export class Rental {
     @PrimaryGeneratedColumn({type: 'bigint'})
     id: number
 
-    @OneToMany(type => MovieRent, movieToRent => movieToRent.rent)
-    rentedMovies: MovieRent[];
+    @OneToMany(type => MovieRental, movieToRent => movieToRent.rent)
+    rentedMovies: MovieRental[];
 
     @Column({name: 'return_period', type: 'int', nullable: false})
     returnPeriod: number;

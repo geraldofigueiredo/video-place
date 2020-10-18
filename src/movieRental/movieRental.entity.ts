@@ -1,17 +1,17 @@
-import { Rent } from "../rent/rent.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Rental } from "../rental/rental.entity";
 import { Movie } from "../movie/movie.entity";
 
-@Entity('movie_rent')
-export class MovieRent {
+@Entity('movie_rental')
+export class MovieRental {
     @PrimaryGeneratedColumn()
     id: number;
 
     @ManyToOne(type => Movie, movie => movie.myRents, {cascade: true, nullable: false})
     movie: Movie;
     
-    @ManyToOne(type => Rent, rent => rent.rentedMovies, { cascade: true, nullable: false})
-    rent: Rent;
+    @ManyToOne(type => Rental, rental => rental.rentedMovies, { cascade: true, nullable: false})
+    rent: Rental;
 
     @Column({nullable: false})
     quantity: number;
