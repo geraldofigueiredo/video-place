@@ -3,11 +3,11 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryG
 
 @Entity('rental')
 export class Rental {
-    @PrimaryGeneratedColumn({type: 'bigint'})
+    @PrimaryGeneratedColumn({type: 'int'})
     id: number
 
-    @OneToMany(type => MovieRental, movieToRent => movieToRent.rent)
-    rentedMovies: MovieRental[];
+    @OneToMany(type => MovieRental, movieToRental => movieToRental.rental)
+    movies: MovieRental[];
 
     @Column({name: 'return_period', type: 'int', nullable: false})
     returnPeriod: number;

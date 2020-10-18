@@ -7,20 +7,20 @@ import { MovieService } from './movie.service';
 export class MovieController {
     constructor(
         @Inject(MovieService) private movieService: MovieService
-    ) {}
+    ){}
 
     @Get('/')
-    async getMovies(): Promise<Movie[]> {
+    async getMovies() {
         return this.movieService.findAll();
     }
 
     @Get('/:id')
-    async getMovie(@Param('id', ParseIntPipe) id: number): Promise<Movie>{
+    async getMovie(@Param('id', ParseIntPipe) id: number) {
         return this.movieService.findById(id);
     }
 
     @Post('/')
-    async createMovie(@Body() newMovie: MovieDTO): Promise<Movie> {
+    async createMovie(@Body() newMovie: MovieDTO) {
         return this.movieService.insertMovie(newMovie);
     }
 
@@ -29,6 +29,7 @@ export class MovieController {
         return this.movieService.updateMovie(movie);
     }
 
+    // TODO: remove parameter id and get an id from body
     @Delete('/:id')
     async deleteMovie(@Param('id', ParseIntPipe) id: number) {
         return await this.movieService.deleteMovie(id);
