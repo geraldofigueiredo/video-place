@@ -24,6 +24,11 @@ export class RentalDTO {
     movies: MovieRentalDTO[];
 
     @Expose()
+    @IsISO8601({strict: true})
+    @IsOptional()
+    rentalDate: string;
+
+    @Expose()
     @IsPositive()
     @Min(1)
     returnPeriod: number;

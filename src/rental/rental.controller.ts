@@ -1,4 +1,5 @@
 import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Get, Inject, Post, Put, UseInterceptors } from "@nestjs/common";
+import { DevolveRentalDTO } from "src/dto/devolveRental.dto";
 import { RentalDTO } from "src/dto/rental.dto";
 import { RentalService } from "./rental.service";
 
@@ -23,7 +24,7 @@ export class RentalController {
     @UseInterceptors(ClassSerializerInterceptor)
     @Post('/')
     async rentMovies(@Body() movies: RentalDTO) {
-        // Array of objects has a bug in Class-Validator
+        // Array of objects has a bug in Class-Validatorss
         if (movies.movies.length == 0) {
             throw new BadRequestException('movies array must be not empty');
         }
@@ -31,7 +32,7 @@ export class RentalController {
     }
 
     @Put('/devolve')
-    async devolveRental() {
+    async devolveRental(@Body() rental: DevolveRentalDTO) {
         return undefined;
     }
 }

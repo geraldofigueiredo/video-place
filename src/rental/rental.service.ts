@@ -1,12 +1,10 @@
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ExecException } from "child_process";
 import { classToPlain, plainToClass } from "class-transformer";
+import { max } from "class-validator";
 import { RentalDTO } from "src/dto/rental.dto";
-import { Movie } from "src/movie/movie.entity";
 import { MovieService } from "src/movie/movie.service";
-import { MovieRental } from "src/movieRental/movieRental.entity";
-import { In, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { Rental } from "./rental.entity";
 
 @Injectable()
@@ -17,16 +15,41 @@ export class RentalService {
     ){}
 
     async findAll(): Promise<Rental[]> {
-        return this.rentalRepository.find({relations: ['movies', 'movies.movie']});
+        return this.rentalRepository.find({where: {returnDate: null}, relations: ['movies', 'movies.movie']});
     }
 
     async findOneById(rentalId: number): Promise<Rental> {
         return this.rentalRepository.findOne(rentalId,{relations: ['movies', 'movies.movie']});
     }
 
+    async expiredRentals(): Promise<any> {
+        const rentalsObject = await this.rentalRepository.find({where: {returnDate: null}, relations: ['movies', 'movies.movie']});
+        let rentals = classToPlain(rentalsObject);
+        let expiredRentals = [];
+        for(const [idx, rental] of rentals.entries()) {
+            let daysOverdue = this.calculateDaysOverdue(new Date(rental.rentalDate), rental.returnPeriod);
+            
+            if (daysOverdue != 0) {
+                rental.daysOverdue = daysOverdue;
+                expiredRentals.push(rental);
+            }
+        }
+        return expiredRentals;
+    }
+
+    calculateDaysOverdue(rentalDate: Date, returnPeriod: number) {
+        const now = new Date();
+        let devolveLimitDate = new Date();
+        devolveLimitDate.setDate(rentalDate.getDate() + returnPeriod + 1);
+        let daysOverdue = now.getDate() - devolveLimitDate.getDate();
+        return Math.max(daysOverdue, 0);
+    }
+
     async createRental(rentalDTO: RentalDTO): Promise<Rental> {
         const rental = plainToClass(Rental, rentalDTO);
-        rental.rentalDate = new Date();
+        if (rental.rentalDate === undefined) {
+            rental.rentalDate = new Date();
+        }
         await this.movieService.checkAvailability(rental.movies);
         await this.movieService.rentMovies(rental.movies);
         await this.rentalRepository.save(rental);
