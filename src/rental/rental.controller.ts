@@ -12,25 +12,26 @@ export class RentalController {
     @UseInterceptors(ClassSerializerInterceptor)
     @Get('/')
     async getRentals() {
-        return this.rentalService.getRentals();
+        return this.rentalService.findAll();
     }
 
     @Get('/expire')
     async getExpiredRentals() {
-        return undefined;
+        return this.rentalService.expiredRentals();
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post('/')
-    async rentMovie(@Body() rentMovies: RentalDTO) {
+    async rentMovies(@Body() movies: RentalDTO) {
         // Array of objects has a bug in Class-Validator
-        if (rentMovies.movies.length == 0) {
+        if (movies.movies.length == 0) {
             throw new BadRequestException('movies array must be not empty');
         }
-        return this.rentalService.createRental(rentMovies);
+        return this.rentalService.createRental(movies);
     }
 
     @Put('/devolve')
-    async devolveMovie() {
+    async devolveRental() {
         return undefined;
     }
 }
