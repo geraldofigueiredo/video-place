@@ -1,7 +1,8 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { classToPlain, plainToClass } from "class-transformer";
+import { classToPlain, Exclude, plainToClass } from "class-transformer";
 import { max } from "class-validator";
+import { DevolveRentalDTO } from "src/dto/devolveRental.dto";
 import { RentalDTO } from "src/dto/rental.dto";
 import { MovieService } from "src/movie/movie.service";
 import { Repository } from "typeorm";
@@ -22,6 +23,30 @@ export class RentalService {
         return this.rentalRepository.findOne(rentalId,{relations: ['movies', 'movies.movie']});
     }
 
+    async createRental(rentalDTO: RentalDTO): Promise<Rental> {
+        const rental = plainToClass(Rental, rentalDTO);
+        if (rental.rentalDate === undefined) {
+            rental.rentalDate = new Date();
+        }
+        await this.movieService.checkAvailability(rental.movies);
+        await this.movieService.rentMovies(rental.movies);
+        await this.rentalRepository.save(rental);
+        return this.findOneById(rental.id);
+    }
+
+    async devolveRental(devolveRentalDTO: DevolveRentalDTO): Promise<Rental> {
+        const rental = await this.rentalRepository.findOne(devolveRentalDTO.id, {where: {returnDate: null}, relations: ['movies', 'movies.movie']});
+        if (rental === undefined) {
+            throw new BadRequestException('rental does not exist or has already been returned');
+        }
+        if (devolveRentalDTO.returnDate === undefined) {
+            devolveRentalDTO.returnDate = new Date().toDateString();
+        }
+        await this.movieService.devolveMovies(rental.movies);
+        await this.rentalRepository.update({id: rental.id}, devolveRentalDTO);
+        return this.findOneById(devolveRentalDTO.id);
+    }
+
     async expiredRentals(): Promise<any> {
         const rentalsObject = await this.rentalRepository.find({where: {returnDate: null}, relations: ['movies', 'movies.movie']});
         let rentals = classToPlain(rentalsObject);
@@ -37,22 +62,11 @@ export class RentalService {
         return expiredRentals;
     }
 
-    calculateDaysOverdue(rentalDate: Date, returnPeriod: number) {
+    private calculateDaysOverdue(rentalDate: Date, returnPeriod: number) {
         const now = new Date();
         let devolveLimitDate = new Date();
         devolveLimitDate.setDate(rentalDate.getDate() + returnPeriod + 1);
         let daysOverdue = now.getDate() - devolveLimitDate.getDate();
         return Math.max(daysOverdue, 0);
-    }
-
-    async createRental(rentalDTO: RentalDTO): Promise<Rental> {
-        const rental = plainToClass(Rental, rentalDTO);
-        if (rental.rentalDate === undefined) {
-            rental.rentalDate = new Date();
-        }
-        await this.movieService.checkAvailability(rental.movies);
-        await this.movieService.rentMovies(rental.movies);
-        await this.rentalRepository.save(rental);
-        return this.findOneById(rental.id);
     }
 }

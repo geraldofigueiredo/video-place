@@ -31,8 +31,9 @@ export class RentalController {
         return this.rentalService.createRental(movies);
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Put('/devolve')
     async devolveRental(@Body() rental: DevolveRentalDTO) {
-        return undefined;
+        return this.rentalService.devolveRental(rental);
     }
 }
