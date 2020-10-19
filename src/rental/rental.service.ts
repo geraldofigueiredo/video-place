@@ -3,8 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { classToPlain, Exclude, plainToClass } from "class-transformer";
 import { max } from "class-validator";
 import { DevolveRentalDTO } from "src/dto/devolveRental.dto";
-import { RentalDTO } from "src/dto/rental.dto";
+import { MovieRentalDTO, RentalDTO } from "src/dto/rental.dto";
 import { MovieService } from "src/movie/movie.service";
+import { MovieRental } from "src/movieRental/movieRental.entity";
 import { Repository } from "typeorm";
 import { Rental } from "./rental.entity";
 
@@ -28,10 +29,22 @@ export class RentalService {
         if (rental.rentalDate === undefined) {
             rental.rentalDate = new Date();
         }
+        this.validateMovieArray(rentalDTO.movies);
         await this.movieService.checkAvailability(rental.movies);
         await this.movieService.rentMovies(rental.movies);
         await this.rentalRepository.save(rental);
         return this.findOneById(rental.id);
+    }
+
+    private validateMovieArray(movies: MovieRentalDTO[]) {
+        const lookup = movies.reduce((a, e) => {
+            a[e.movieId] = ++a[e.movieId] || 0;
+            return a;
+        }, {});
+        const duplicateMovies = movies.filter(e => lookup[e.movieId]);
+        if (duplicateMovies.length > 0) {
+            throw new BadRequestException(`movieId: ${duplicateMovies[0].movieId}, has duplicated in requested movies`);
+        }
     }
 
     async devolveRental(devolveRentalDTO: DevolveRentalDTO): Promise<Rental> {
