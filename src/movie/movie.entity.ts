@@ -1,5 +1,6 @@
 import { MovieRental } from "../movieRental/movieRental.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Exclude } from "class-transformer";
 
 @Entity('movie')
 export class Movie {
@@ -41,6 +42,10 @@ export class Movie {
 
     @Column({type: 'int', nullable: false})
     quantity: number;
+
+    @Exclude()
+    @Column({name: 'available_quantity',type: 'int', nullable: false})
+    availableQuantity: number;
 
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;

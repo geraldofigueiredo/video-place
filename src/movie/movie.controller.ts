@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseInterceptors } from '@nestjs/common';
 import { MovieDTO } from '../dto/movie.dto';
 import { Movie } from './movie.entity';
 import { MovieService } from './movie.service';
@@ -9,14 +9,16 @@ export class MovieController {
         @Inject(MovieService) private movieService: MovieService
     ){}
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('/')
     async getMovies() {
         return this.movieService.findAll();
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('/:id')
     async getMovie(@Param('id', ParseIntPipe) id: number) {
-        return this.movieService.findById(id);
+        return this.movieService.findOneById(id);
     }
 
     @Post('/')
@@ -24,6 +26,7 @@ export class MovieController {
         return this.movieService.insertMovie(newMovie);
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Put('/')
     async updateMovie(@Body() movie: MovieDTO){
         return this.movieService.updateMovie(movie);
