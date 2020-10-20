@@ -6,11 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [
-        RentalModule, 
-        MovieModule, 
-    TypeOrmModule.forRoot(),
-  ],
+  imports: [RentalModule, MovieModule, TypeOrmModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })

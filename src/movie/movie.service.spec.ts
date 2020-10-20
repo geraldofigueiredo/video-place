@@ -6,73 +6,73 @@ import { Movie } from './movie.entity';
 import { MovieService } from './movie.service';
 
 let movieArray = [
-    new Movie(0, 'movie 0'),
-    new Movie(1, 'movie 1'),
-    new Movie(2, 'movie 2'),
-    new Movie(3, 'movie 3'),
-    new Movie(4, 'movie 4'),
-    new Movie(5, 'movie 5'),
+  new Movie(0, 'movie 0'),
+  new Movie(1, 'movie 1'),
+  new Movie(2, 'movie 2'),
+  new Movie(3, 'movie 3'),
+  new Movie(4, 'movie 4'),
+  new Movie(5, 'movie 5'),
 ];
 
 describe('MovieService', () => {
-    let module: TestingModule;
-    let movieService: MovieService;
+  let module: TestingModule;
+  let movieService: MovieService;
 
-    beforeEach(async () => {
-        module = await Test.createTestingModule({
-            providers: [
-                MovieService,
-                {
-                    provide: getRepositoryToken(Movie),
-                    useValue: {
-                        find: jest.fn().mockResolvedValue(movieArray),
-                        findOne: jest.fn().mockResolvedValue(movieArray[0]),
-                        save: jest.fn(),
-                        update: jest.fn(),
-                        delete: jest.fn().mockResolvedValue(movieArray[2])
-                    }
-                }
-            ],
-        }).compile();
+  beforeEach(async () => {
+    module = await Test.createTestingModule({
+      providers: [
+        MovieService,
+        {
+          provide: getRepositoryToken(Movie),
+          useValue: {
+            find: jest.fn().mockResolvedValue(movieArray),
+            findOne: jest.fn().mockResolvedValue(movieArray[0]),
+            save: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn().mockResolvedValue(movieArray[2]),
+          },
+        },
+      ],
+    }).compile();
 
-        movieService = module.get<MovieService>(MovieService);
+    movieService = module.get<MovieService>(MovieService);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should be defined', () => {
+    expect(movieService).toBeDefined();
+  });
+
+  describe('findAll', () => {
+    it('should return an movie array', async () => {
+      const movies = await movieService.findAll();
+      expect(movies.length).toBe(6);
+      expect(movies[0]).toBe(movieArray[0]);
+      expect(movies[1].id).toBe(movieArray[1].id);
     });
+  });
 
-    afterEach(() => {
-        jest.resetAllMocks();
-     });
-
-    it('should be defined', () => {
-        expect(movieService).toBeDefined();
+  describe('findById', () => {
+    it('should return a single movie', async () => {
+      const movie = await movieService.findOneById(0);
+      expect(movie).toBe(movieArray[0]);
     });
+  });
 
-    describe('findAll', () => {
-        it('should return an movie array', async () => {
-            const movies = await movieService.findAll();
-            expect(movies.length).toBe(6);
-            expect(movies[0]).toBe(movieArray[0]);
-            expect(movies[1].id).toBe(movieArray[1].id);
-        });
+  describe('insertMovie', () => {
+    it('should insert a new movie', async () => {
+      const movie = await movieService.insertMovie(new MovieDTO(1, 'movie 1'));
+      expect(movie.id).toEqual(movieArray[1].id);
     });
+  });
 
-    describe('findById', () => {
-        it('should return a single movie', async () => {
-            const movie = await movieService.findOneById(0);
-            expect(movie).toBe(movieArray[0]);
-        })
+  describe('updateMovie', () => {
+    it('should update and return a movie', async () => {
+      const movie = await movieService.updateMovie(new MovieDTO());
+      expect(movie).toBe(movieArray[0]);
     });
-
-    describe('insertMovie', () => {
-        it('should insert a new movie', async () => {
-            const movie = await movieService.insertMovie(new MovieDTO(1, 'movie 1'));
-            expect(movie.id).toEqual(movieArray[1].id);
-        });
-    });
-
-    describe('updateMovie', () => {
-        it('should update and return a movie', async () => {
-            const movie = await movieService.updateMovie(new MovieDTO)
-            expect(movie).toBe(movieArray[0]);
-        });
-    });
+  });
 });
