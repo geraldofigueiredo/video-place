@@ -1,3 +1,4 @@
+import { RentalModule } from './rental/rental.module';
 import { MovieModule } from './movie/movie.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,6 +7,7 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
+        RentalModule, 
         MovieModule, 
     TypeOrmModule.forRoot(),
   ],

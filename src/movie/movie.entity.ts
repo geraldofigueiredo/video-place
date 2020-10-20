@@ -1,5 +1,6 @@
-import { MovieRent } from "../movieRent/movieRent.entity";
+import { MovieRental } from "../movieRental/movieRental.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Exclude } from "class-transformer";
 
 @Entity('movie')
 export class Movie {
@@ -9,11 +10,11 @@ export class Movie {
         this.title = title;
     }
 
-    @PrimaryGeneratedColumn({type: 'bigint'})
+    @PrimaryGeneratedColumn({type: 'int'})
     id: number;
 
-    @OneToMany(type => MovieRent, rentedMovie => rentedMovie.movie)
-    myRents: MovieRent[];
+    @OneToMany(type => MovieRental, rentedMovie => rentedMovie.movie)
+    rentals: MovieRental[];
 
     @Column({type: 'text', nullable: false})
     title: string;
@@ -25,7 +26,6 @@ export class Movie {
     genre: string;
 
     @Column({name: 'release_date' ,type: 'date', nullable: true})
-    // @Transform(releaseDate => new Date(releaseDate))
     releaseDate: Date;
 
     @Column({type: 'text', nullable: false})
@@ -42,6 +42,10 @@ export class Movie {
 
     @Column({type: 'int', nullable: false})
     quantity: number;
+
+    @Exclude()
+    @Column({name: 'available_quantity',type: 'int', nullable: false})
+    availableQuantity: number;
 
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;

@@ -17,7 +17,6 @@ let movieArray = [
 describe('MovieService', () => {
     let module: TestingModule;
     let movieService: MovieService;
-    // let movieRepository: Repository<Movie>;
 
     beforeEach(async () => {
         module = await Test.createTestingModule({
@@ -37,7 +36,6 @@ describe('MovieService', () => {
         }).compile();
 
         movieService = module.get<MovieService>(MovieService);
-        // movieRepository = module.get<Repository<Movie>>(getRepositoryToken(Movie));
     });
 
     afterEach(() => {
@@ -59,7 +57,7 @@ describe('MovieService', () => {
 
     describe('findById', () => {
         it('should return a single movie', async () => {
-            const movie = await movieService.findById(0);
+            const movie = await movieService.findOneById(0);
             expect(movie).toBe(movieArray[0]);
         })
     });
@@ -67,7 +65,7 @@ describe('MovieService', () => {
     describe('insertMovie', () => {
         it('should insert a new movie', async () => {
             const movie = await movieService.insertMovie(new MovieDTO(1, 'movie 1'));
-            expect(movie).toStrictEqual(movieArray[1]);
+            expect(movie.id).toEqual(movieArray[1].id);
         });
     });
 

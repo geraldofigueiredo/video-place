@@ -3,8 +3,6 @@ import { Movie } from './movie.entity';
 import { MovieService } from './movie.service';
 import { MovieController } from './movie.controller';
 import { MovieDTO } from '../dto/movie.dto';
-import { DeleteResult } from 'typeorm';
-import { type } from 'os';
 
 describe('MovieController', () => {
     let movieController: MovieController;
@@ -22,7 +20,7 @@ describe('MovieController', () => {
                         new Movie(3, 'movie 3'),
                         new Movie(4, 'movie 4'),
                     ]),
-                    findById: jest.fn().mockResolvedValue(new Movie(5, 'movie 5')),
+                    findOneById: jest.fn().mockResolvedValue(new Movie(5, 'movie 5')),
                     insertMovie: jest.fn().mockResolvedValue(new Movie(6, 'movie 6')),
                     updateMovie: jest.fn().mockResolvedValue(new Movie(7, 'updated')),
                     deleteMovie: jest.fn().mockResolvedValue({
