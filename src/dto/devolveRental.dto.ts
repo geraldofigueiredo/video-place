@@ -3,6 +3,10 @@ import { IsISO8601, IsOptional, IsPositive, Min } from "class-validator";
 
 @Exclude()
 export class DevolveRentalDTO {
+    constructor(id?: number) {
+        this.id = id;
+    }
+
     @Expose()
     @IsPositive()
     @Min(1)

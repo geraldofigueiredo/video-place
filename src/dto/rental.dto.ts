@@ -3,7 +3,10 @@ import { IsDefined, IsISO8601, IsNotEmpty, IsOptional, IsPositive, IsString, Min
 
 export class MovieRentalDTO {
     
-    constructor(){}
+    constructor(movieId?: number){
+        this.movieId = movieId;
+    }
+
     @Expose()
     @IsPositive()
     @Min(1)
@@ -18,7 +21,9 @@ export class MovieRentalDTO {
 @Exclude()
 export class RentalDTO {
 
-    constructor(){}
+    constructor(movies?: MovieRentalDTO[]){
+        this.movies = movies;
+    }
     
     @Expose()
     @IsDefined()

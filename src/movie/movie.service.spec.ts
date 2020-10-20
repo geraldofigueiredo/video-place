@@ -17,7 +17,6 @@ let movieArray = [
 describe('MovieService', () => {
     let module: TestingModule;
     let movieService: MovieService;
-    // let movieRepository: Repository<Movie>;
 
     beforeEach(async () => {
         module = await Test.createTestingModule({
@@ -37,7 +36,6 @@ describe('MovieService', () => {
         }).compile();
 
         movieService = module.get<MovieService>(MovieService);
-        // movieRepository = module.get<Repository<Movie>>(getRepositoryToken(Movie));
     });
 
     afterEach(() => {
