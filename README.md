@@ -4,9 +4,46 @@
   
  <p align="center">implementation of an API for a practical development test using nestjs.</p>
 
-## Description
+## Deployed version
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+```bash
+curl https://video-place-envoy.herokuapp.com/movie
+```
+
+```
+[
+  {
+    "id": 1,
+    "title": "filme",
+    "synopsis": "teste de filme",
+    "genre": "teste de filme",
+    "releaseDate": "2017-06-07",
+    "idiom": "portuguese",
+    "subtitled": true,
+    "director": "geraldo",
+    "IMDB": "test.com",
+    "quantity": 50,
+    "createdAt": "2020-10-20T04:03:41.070Z",
+    "upadtedAt": "2020-10-20T04:03:41.070Z",
+    "deletedAt": null
+  },
+  {
+    "id": 2,
+    "title": "filme",
+    "synopsis": "teste de filme",
+    "genre": "teste de filme",
+    "releaseDate": "2017-06-07",
+    "idiom": "portuguese",
+    "subtitled": true,
+    "director": "geraldo",
+    "IMDB": "test.com",
+    "quantity": 50,
+    "createdAt": "2020-10-20T04:03:53.616Z",
+    "upadtedAt": "2020-10-20T04:03:53.616Z",
+    "deletedAt": null
+  }
+]
+```
 
 ## Dependencies
 
