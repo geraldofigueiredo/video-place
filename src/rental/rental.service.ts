@@ -1,11 +1,9 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { classToPlain, Exclude, plainToClass } from "class-transformer";
-import { max } from "class-validator";
-import { DevolveRentalDTO } from "src/dto/devolveRental.dto";
-import { MovieRentalDTO, RentalDTO } from "src/dto/rental.dto";
-import { MovieService } from "src/movie/movie.service";
-import { MovieRental } from "src/movieRental/movieRental.entity";
+import { classToPlain, plainToClass } from "class-transformer";
+import { DevolveRentalDTO } from "../dto/devolveRental.dto";
+import { MovieRentalDTO, RentalDTO } from "../dto/rental.dto";
+import { MovieService } from "../movie/movie.service";
 import { Repository } from "typeorm";
 import { Rental } from "./rental.entity";
 
@@ -60,7 +58,7 @@ export class RentalService {
         return this.findOneById(devolveRentalDTO.id);
     }
 
-    async expiredRentals(): Promise<any> {
+    async expiredRentals(): Promise<any[]> {
         const rentalsObject = await this.rentalRepository.find({where: {returnDate: null}, relations: ['movies', 'movies.movie']});
         let rentals = classToPlain(rentalsObject);
         let expiredRentals = [];

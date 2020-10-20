@@ -5,6 +5,11 @@ import { Exclude } from "class-transformer";
 
 @Entity('movie_rental')
 export class MovieRental {
+    constructor(movieid?: number, rentalid?: number) {
+        this.movieId = movieid;
+        this.rentalId = rentalid;
+    }
+
     @Exclude()
     @PrimaryColumn({name: 'movie_id', type: 'int', nullable: false, select: false})
     movieId: number;

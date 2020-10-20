@@ -1,9 +1,16 @@
 import { MovieRental } from "../movieRental/movieRental.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Exclude } from "class-transformer";
+import { Movie } from "src/movie/movie.entity";
 
 @Entity('rental')
 export class Rental {
+
+    constructor(id?: number, movies?: MovieRental[]){
+        this.id = id;
+        this.movies = movies;
+    }
+
     @PrimaryGeneratedColumn({type: 'int'})
     id: number
 

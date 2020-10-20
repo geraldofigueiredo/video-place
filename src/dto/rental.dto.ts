@@ -2,6 +2,8 @@ import { Exclude, Expose, Type } from "class-transformer";
 import { IsDefined, IsISO8601, IsNotEmpty, IsOptional, IsPositive, IsString, Min, ValidateNested } from "class-validator";
 
 export class MovieRentalDTO {
+    
+    constructor(){}
     @Expose()
     @IsPositive()
     @Min(1)
@@ -15,6 +17,8 @@ export class MovieRentalDTO {
 
 @Exclude()
 export class RentalDTO {
+
+    constructor(){}
     
     @Expose()
     @IsDefined()
