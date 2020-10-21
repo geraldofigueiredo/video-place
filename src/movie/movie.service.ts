@@ -37,11 +37,7 @@ export class MovieService {
     const oldMovie = await this.findOneById(id);
 
     const quantityDiffInterval = updatedMovie.quantity - oldMovie.quantity;
-<<<<<<< HEAD
-    updatedMovie.availableQuantity += quantityDiffInterval;
-=======
     updatedMovie.availableQuantity = oldMovie.availableQuantity + quantityDiffInterval;
->>>>>>> release/v1.0.2
 
     await this.movieRepository.update({ id }, updatedMovie);
     return this.findOneById(id);

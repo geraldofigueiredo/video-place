@@ -9,10 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-<<<<<<< HEAD
-=======
 import { ApiProperty } from '@nestjs/swagger/dist/decorators/api-property.decorator';
->>>>>>> release/v1.0.2
 
 @Entity('movie')
 export class Movie {
@@ -21,13 +18,10 @@ export class Movie {
     this.title = title;
   }
 
-<<<<<<< HEAD
-=======
   /**
    * The movie unique identifier
    * @example 1
    */
->>>>>>> release/v1.0.2
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
@@ -37,10 +31,7 @@ export class Movie {
   )
   rentals: MovieRental[];
 
-<<<<<<< HEAD
-=======
   @ApiProperty({ example: 'Fight Club', description: 'The movie title' })
->>>>>>> release/v1.0.2
   @Column({ type: 'text', nullable: false })
   title: string;
 
